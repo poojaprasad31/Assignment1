@@ -1,0 +1,42 @@
+.errorDiv {
+    font-size: 14px;
+    --ion-item-border-color: transparent;
+    .redIcon {
+        color: #E61E50 !important;
+        font-size: 16px;
+        margin: 0 18px -3px 5px;
+    }
+}
+
+.productCard ion-row {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.customButton {
+    border-radius: 4px !important;
+    height: 30px;
+    width: 20%;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+}
+
+ion-input {
+    background: #eee;
+}
+
+.smallIcons {
+    font-size: 16px;
+    padding: 0 10px;
+}
+
+.addBtn {
+    text-align: right;
+    padding-right: 15px;
+}
+
+.addBtn ion-button {
+    height: 32px;
+    --padding-top: 5px;
+    --padding-bottom: 5px;
+}

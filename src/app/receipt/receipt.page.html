@@ -1,0 +1,95 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-menu-button color="dark"></ion-menu-button>
+        </ion-buttons>
+        <ion-title color="dark">
+            Receipt
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-item>
+        <ion-icon name="paper" color="dark" slot="start"></ion-icon>
+        Invoice
+    </ion-item>
+    <ion-card class="productCard" *ngFor="let item of dataToDisplay.purchaseInfo; let i = index">
+        <ion-row>
+            <ion-col size="10">
+                <b>{{item.productName}}</b> X {{item.quantity}}
+            </ion-col>
+            <ion-col size="2" class="ion-text-end" *ngIf="dataToDisplay.purchaseInfo.length > 1">
+               <ion-icon name="close-circle" color="dark" (click)="deleteProduct(i)"></ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="9">
+                Total Hours {{item.duration}}Hr X $ {{item.perHrCost}}
+            </ion-col>
+            <ion-col size="3" class="ion-text-end">
+                $ {{item.duration * item.perHrCost * item.quantity}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="9">
+                Discount
+            </ion-col>
+            <ion-col size="3" class="ion-text-end">
+                $ {{item.productDiscount}}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="9">
+                Total
+            </ion-col>
+            <ion-col size="3" class="ion-text-end">
+                $ {{(item.duration * item.perHrCost * item.quantity) - (item.productDiscount)}}
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <ion-card class="productCard">
+        <ion-row>
+            <ion-col size="9">
+                <b>Total Amount to be paid</b>
+            </ion-col>
+            <ion-col size="3" class="ion-text-end">
+                <b>$ {{totalAmountToBePaid}}</b>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <div class="addBtn">
+        <ion-button color="dark" slot="end" (click)="presentAddProductPrompt()">Add Product</ion-button>
+    </div>
+    <form novalidate [formGroup]="userDetailsForm">
+        <ion-item>
+            <ion-icon name="ios-mail" color="dark" slot="start"></ion-icon>
+            <ion-input *ngIf="!showEmailSpan" [(ngModel)]="dataToDisplay.emailid" formControlName="emailid" name="emailid" type="text" placeholder="Your email id"></ion-input>
+            <span *ngIf="showEmailSpan"> {{dataToDisplay.emailid}} </span>
+            <ion-icon *ngIf="showEmailSpan" name="md-create" color="dark" (click)="toggleEmailSpan()" class="smallIcons"></ion-icon>
+            <ion-icon *ngIf="!showEmailSpan" name="checkmark-circle-outline" color="dark" (click)="toggleEmailSpan()" class="smallIcons"></ion-icon>
+            <ion-button class="customButton" color="dark" slot="end" fill="outline" href="mailto:{{dataToDisplay.emailid}}">E-mail</ion-button>
+        </ion-item>
+        <ion-item class="errorDiv" text-wrap [hidden]="(userDetailsForm.get('emailid').valid)" *ngIf="(userDetailsForm.get('emailid').dirty || userDetailsForm.get('emailid').touched)">
+            <ng-container *ngFor="let data of validation_messages.emailid">
+                <div *ngIf="userDetailsForm.get('emailid').hasError(data.type)">
+                    <ion-icon name="ios-alert" class="redIcon" slot="start"></ion-icon> {{ data.message }}
+                </div>
+            </ng-container>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="ios-call" color="dark" slot="start"></ion-icon>
+            <ion-input *ngIf="!showMobNumSpan" [(ngModel)]="dataToDisplay.mobNumber" formControlName="mobNumber" name="mobNumber" type="number" placeholder="Enter your mobile num"></ion-input>
+            <span *ngIf="showMobNumSpan"> {{dataToDisplay.mobNumber}} </span>
+            <ion-icon *ngIf="showMobNumSpan" name="md-create" color="dark" (click)="toggleMobNumSpan()" class="smallIcons"></ion-icon>
+            <ion-icon *ngIf="!showMobNumSpan" name="checkmark-circle-outline" color="dark" (click)="toggleMobNumSpan()" class="smallIcons"></ion-icon>
+            <ion-button class="customButton" color="dark" slot="end" fill="outline">SMS</ion-button>
+        </ion-item>
+        <ion-item class="errorDiv" text-wrap [hidden]="(userDetailsForm.get('mobNumber').valid)" *ngIf="(userDetailsForm.get('mobNumber').dirty || userDetailsForm.get('mobNumber').touched)">
+            <ng-container *ngFor="let data of validation_messages.mobNumber">
+                <div *ngIf="userDetailsForm.get('mobNumber').hasError(data.type)">
+                    <ion-icon name="ios-alert" class="redIcon" slot="start"></ion-icon> {{ data.message }}
+                </div>
+            </ng-container>
+        </ion-item>
+    </form>
+</ion-content>
